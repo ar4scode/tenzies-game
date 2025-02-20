@@ -1,23 +1,35 @@
+import { useState } from 'react'
 import './App.css'
 import Die from './components/Die'
 
 function App() {
-  
+  const [diceNumbers, setDiceNumbers] = useState(generateAllNewDice())
+/*
+  const generateRandomInt = () => {
+    return Math.floor(Math.random() * 7 + 1)
+  }
+
+  let diceArray = []
+  for(let index = 1; index < 11; index++) {
+    diceArray.push(generateRandomInt())
+  }
+*/
+  function generateAllNewDice()  {
+    let newDices = []
+    for(let index= 1; index < 11; index++) {
+      // we can use Math.ceil() => we don't need add 1 to our random number
+      newDices.push(Math.ceil(Math.random() * 6))
+    }
+    return newDices
+  }
 
   return (
     <>
       <main className='bg-white rounded-lg h-full flex justify-center items-center'>
         <div className='grid grid-cols-5 gap-5'>
-          <Die value="1"/>        
-          <Die value="2"/>        
-          <Die value="3"/>        
-          <Die value="4"/>        
-          <Die value="5"/>        
-          <Die value="6"/>        
-          <Die value="2"/>        
-          <Die value="4"/>        
-          <Die value="5"/>        
-          <Die value="6"/>        
+          {diceNumbers.map((die, index) => {
+            return(<Die key={index} value={die} />)
+          })}
         </div>
       </main>
     </>
