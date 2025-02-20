@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Die from './components/Die'
+import RollButton from './RollButton'
 
 function App() {
   const [diceNumbers, setDiceNumbers] = useState(generateAllNewDice())
@@ -25,12 +26,13 @@ function App() {
 
   return (
     <>
-      <main className='bg-white rounded-lg h-full flex justify-center items-center'>
+      <main className='bg-white rounded-lg h-full flex flex-col justify-evenly items-center'>
         <div className='grid grid-cols-5 gap-5'>
           {diceNumbers.map((die, index) => {
             return(<Die key={index} value={die} />)
           })}
         </div>
+        <RollButton onClick={() => setDiceNumbers(generateAllNewDice)} />
       </main>
     </>
   )
