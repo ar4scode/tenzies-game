@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Die from './components/Die';
 import RollButton from './components/RollButton';
+import Header from './components/Header';
 import { nanoid } from 'nanoid';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
   return (
     <>
       <main className="bg-white rounded-lg h-full flex flex-col justify-evenly items-center">
+        <Header />
         <div className="grid grid-cols-5 gap-5">
           {diceNumbers.map((die) => (
             <Die
