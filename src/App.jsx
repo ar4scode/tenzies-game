@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Die from './components/Die';
-import RollButton from './RollButton';
+import RollButton from './components/RollButton';
 import { nanoid } from 'nanoid';
 
 function App() {
@@ -19,13 +19,30 @@ function App() {
     return newDices;
   }
 
+  const rollDice = () => {
+    setDiceNumbers(prevDice => 
+      prevDice.map((die) => 
+        die.isHeld ? die : {...die, values: Math.ceil(Math.random() * 6)}
+      )
+    )
+  }
+
   const holdDice = (id) => {
     setDiceNumbers((prevDice) =>
-      prevDice.map((die) =>
-        die.id === id ? { ...die, isHeld: !die.isHeld } : die
+      prevDice.map((die) => 
+        die.id === id ? { ...die, isHeld: !die.isHeld} : die
       )
     );
-  };
+  }
+
+
+  // const updateDice = () => {
+  //   setDiceNumbers(prevDice => {
+  //     prevDice.map((die) => {
+  //       die.isHeld ? die : {...die, values: Math.ceil(Math.random() * 6)}
+  //     })
+  //   })
+  // }
 
   return (
     <>
@@ -40,7 +57,7 @@ function App() {
             />
           ))}
         </div>
-        <RollButton onClick={() => setDiceNumbers(generateAllNewDice())} />
+        <RollButton onClick={rollDice} />
       </main>
     </>
   );
