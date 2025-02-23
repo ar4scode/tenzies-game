@@ -4,9 +4,12 @@ import Die from './components/Die';
 import RollButton from './components/RollButton';
 import Header from './components/Header';
 import { nanoid } from 'nanoid';
+import Confetti from 'react-confetti'
 
 function App() {
-  const [diceNumbers, setDiceNumbers] = useState(generateAllNewDice());
+  const [diceNumbers, setDiceNumbers] = useState(() => generateAllNewDice());
+
+  const gameWon = diceNumbers.every(die => die.isHeld) && diceNumbers.every(die => die.values === diceNumbers[0].values)
 
   function generateAllNewDice() {
     let newDices = [];
@@ -21,11 +24,15 @@ function App() {
   }
 
   const rollDice = () => {
-    setDiceNumbers(prevDice => 
-      prevDice.map((die) => 
-        die.isHeld ? die : {...die, values: Math.ceil(Math.random() * 6)}
+    if(!gameWon) {
+      setDiceNumbers(prevDice => 
+        prevDice.map((die) => 
+          die.isHeld ? die : {...die, values: Math.ceil(Math.random() * 6)}
+        )
       )
-    )
+    } else {
+      setDiceNumbers(generateAllNewDice())
+    }
   }
 
   const holdDice = (id) => {
@@ -37,17 +44,10 @@ function App() {
   }
 
 
-  // const updateDice = () => {
-  //   setDiceNumbers(prevDice => {
-  //     prevDice.map((die) => {
-  //       die.isHeld ? die : {...die, values: Math.ceil(Math.random() * 6)}
-  //     })
-  //   })
-  // }
-
   return (
     <>
       <main className="bg-white rounded-lg h-full flex flex-col justify-evenly items-center">
+        {gameWon && <Confetti />}
         <Header />
         <div className="grid grid-cols-5 gap-5">
           {diceNumbers.map((die) => (
@@ -59,7 +59,9 @@ function App() {
             />
           ))}
         </div>
-        <RollButton onClick={rollDice} />
+        <RollButton onClick={rollDice}>
+          {gameWon ? "New Game" : "Roll"}
+        </RollButton>
       </main>
     </>
   );
