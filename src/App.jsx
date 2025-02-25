@@ -5,7 +5,7 @@ import RollButton from './components/RollButton';
 import Header from './components/Header';
 import { nanoid } from 'nanoid';
 import Confetti from 'react-confetti'
-import Timer from './components/Timer';
+import Timer from './components/Timer'
 
 function App() {
   const [diceNumbers, setDiceNumbers] = useState(() => generateAllNewDice());
