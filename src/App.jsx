@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Die from './components/Die';
 import RollButton from './components/RollButton';
@@ -8,8 +8,15 @@ import Confetti from 'react-confetti'
 
 function App() {
   const [diceNumbers, setDiceNumbers] = useState(() => generateAllNewDice());
+  const buttonRef = useRef(null)
 
   const gameWon = diceNumbers.every(die => die.isHeld) && diceNumbers.every(die => die.values === diceNumbers[0].values)
+
+  useEffect(() => {
+    if(gameWon) {
+      buttonRef.current.focus()
+    }
+  }, [gameWon])
 
   function generateAllNewDice() {
     let newDices = [];
@@ -59,7 +66,7 @@ function App() {
             />
           ))}
         </div>
-        <RollButton onClick={rollDice}>
+        <RollButton buttonRef={buttonRef} onClick={rollDice}>
           {gameWon ? "New Game" : "Roll"}
         </RollButton>
       </main>
